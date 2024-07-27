@@ -1,0 +1,17 @@
+var pathApp = Environment.CurrentDirectory;
+
+string Pass = string.Empty;
+
+string PassPath = pathApp + @"\Password.txt";
+
+Pass = File.ReadAllText(PassPath);
+
+
+//UNZIP
+string zipFilePath = pathApp + @"\UpdatePackage.zip";
+string extractPath = pathApp ;
+using (ZipFile zip = ZipFile.Read(zipFilePath))
+{
+  zip.Password = AESHelper.Decrypt(Pass.Trim());
+  zip.ExtractAll(extractPath, ExtractExistingFileAction.OverwriteSilently);
+}
